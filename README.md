@@ -75,6 +75,22 @@ Allows the Spring AI client application to search the vector store for relevant 
 
 The RAG tool can be used to retrieve information from documents that have been ingested and stored as vector embeddings in Qdrant.
 
+
+
+### Weather Tool
+
+Performs retrieval of weather information for requested city.
+
+**Purpose:**
+
+Allows the Spring AI client application to get temperature, description, feels like temperature and humidity of requested city.
+
+
+
+
+
+
+
 ## MCP Prompts
 
 The server exposes the following MCP prompt.
@@ -182,6 +198,7 @@ MCP Server
     |    +-- DateTime Tool
     |    +-- Product Tool
     |    +-- RAG Tool
+    |    +-- Weather Tool
     |
     +-- Prompts
          +-- Greetings Prompt
@@ -224,6 +241,27 @@ PostgreSQL
   |
   v
 Product Information
+```
+
+
+You need to supply an OpenWeather api key for the next example:
+
+```text
+User
+  |
+  | "Give me the current weather in Atlanta Ga"
+  v
+Spring AI Application
+  |
+  | MCP Tool Call
+  v
+Weather Tool
+  |
+  v
+OpenWeather.org
+  |
+  v
+Weather Information
 ```
 
 For RAG queries:

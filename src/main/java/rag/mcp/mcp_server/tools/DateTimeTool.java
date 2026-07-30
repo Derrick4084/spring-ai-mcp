@@ -8,6 +8,8 @@ import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -16,7 +18,7 @@ public class DateTimeTool {
     private static final Logger log = LoggerFactory.getLogger(DateTimeTool.class);
 
     public record DateTimeRequest(
-            String request
+            String timeZone
     ){}
 
     public record DateTimeResponse(
@@ -27,34 +29,45 @@ public class DateTimeTool {
 
     @Tool(
             name = "getDateTime",
-            description = "Get the current date and time"
+            description = "Get the current date and time for the specified timezone"
     )
     public DateTimeResponse getDateTime(DateTimeRequest dateTimeRequest) {
 
-            log.info("========== DATE TIME TOOL START ==========");
+        log.info("========== DATE TIME TOOL START ==========");
 
-            LocalDateTime now = LocalDateTime.now();
+        ZoneId zoneId = ZoneId.of(dateTimeRequest.timeZone());
 
-            String dayOfWeek = now.getDayOfWeek().toString();
-            String date = now.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String time = now.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(zoneId);
 
-            log.info(
-                    "getDateTime called: {} {} {}",
-                    dayOfWeek,
-                    date,
-                    time
-            );
+        String dayOfWeek = zonedDateTime
+                .getDayOfWeek()
+                .toString();
 
-            DateTimeResponse response = new DateTimeResponse(
-                    dayOfWeek,
-                    date,
-                    time
-            );
+        String date = zonedDateTime
+                .toLocalDate()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            log.info("========== DATE TIME TOOL END ==========");
+        String time = zonedDateTime
+                .toLocalTime()
+                .format(DateTimeFormatter.ofPattern("HH:mm a"));
 
-            return response;
-        }
+        log.info(
+                "getDateTime called: timezone={}, {} {} {}",
+                dateTimeRequest.timeZone(),
+                dayOfWeek,
+                date,
+                time
+        );
+
+        DateTimeResponse response = new DateTimeResponse(
+                dayOfWeek,
+                date,
+                time
+        );
+
+        log.info("========== DATE TIME TOOL END ==========");
+
+        return response;
+    }
 
 }
