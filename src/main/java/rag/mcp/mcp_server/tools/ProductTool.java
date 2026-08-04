@@ -18,53 +18,65 @@ public class ProductTool {
         this.productService = productService;
     }
 
+    public record ProductRequestById(
+            Long productId
+    ) {}
 
-    public record ProductRequestById(Long productId) {}
-    public record ProductRequestByName(String name) {}
+    public record ProductRequestByName(
+            String name
+    ) {}
+
     public record ProductResponse(
             Long id,
             String name,
             String description,
             Double qty,
-            BigDecimal price
+            BigDecimal price,
+            String categoryName
     ) {}
 
     @Tool(
             name = "getProductById",
-            description = "Retrieves a product by its ID"
+            description = "Retrieves a product by its numeric ID"
     )
-    public ProductResponse getProductById(ProductTool.ProductRequestById productRequest) {
-        return productService.getProductById(productRequest.productId())
+    public ProductResponse getProductById(
+            @NonNull ProductRequestById productId) {
+
+        return productService
+                .getProductById(productId.productId())
                 .map(product -> new ProductResponse(
                         product.getId(),
                         product.getName(),
                         product.getDescription(),
                         product.getAvailableQuantity(),
-                        product.getPrice()
+                        product.getPrice(),
+                        product.getCategory().getName()
                 ))
                 .orElseThrow(() ->
                         new RuntimeException(
-                                "Product not found: " + productRequest.productId()
+                                "Product not found: " +
+                                        productId.productId()
                         )
                 );
     }
 
-
     @Tool(
             name = "getProductByName",
-            description = "Retrieves a product by its name"
+            description = "Retrieves a product by its exact name"
     )
-    public ProductResponse getProductByName(ProductTool.ProductRequestByName productRequest) {
+    public ProductResponse getProductByName(
+            @NonNull ProductRequestByName name) {
 
-        Product product = productService.getProductByName(productRequest.name());
+        Product product = productService
+                .getProductByName(name.name());
 
         return new ProductResponse(
                 product.getId(),
-                productRequest.name(),
+                product.getName(),
                 product.getDescription(),
                 product.getAvailableQuantity(),
-                product.getPrice()
+                product.getPrice(),
+                product.getCategory().getName()
         );
-
     }
 }

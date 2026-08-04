@@ -3,33 +3,28 @@ server:
 
 weather:
   open-weather:
-    api-key: "add your api key hear"
+    api-key: "OpenWeather api key"
+
 spring:
   application:
     name: streamable-mcp-server
+
+  profiles:
+    active: remote
+
   datasource:
-    url: jdbc:postgresql://localhost:5332/rag
+    url: jdbc:postgresql://localhost:5432/ecomm
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     database: postgresql
     show-sql: true
 
   ai:
-    openai:
-      api-key: none
-      timeout: 5m
-      chat:
-        base-url: http://10.0.0.44:8080/v1
-        options:
-          model: llama31
-      embedding:
-        base-url: http://10.0.0.44:8081/v1
-        options:
-          model: nomic-embed
     mcp:
       server:
         protocol: STREAMABLE
@@ -37,17 +32,20 @@ spring:
         version: 1.0.0
         type: SYNC
         instructions: "This streamable server provides real-time notifications"
+
         capabilities:
           tool: true
           resource: false
           prompt: true
           completion: false
+
         streamable-http:
           mcp-endpoint: /api/mcp
           keep-alive-interval: 30s
+
     vectorstore:
       qdrant:
-        initialize-schema: false
+        initialize-schema: true
         host: localhost
         port: 6334
-        collection-name: docs_random_llama3.2
+        collection-name: docs_ollama

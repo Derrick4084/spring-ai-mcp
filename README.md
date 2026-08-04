@@ -86,11 +86,6 @@ Performs retrieval of weather information for requested city.
 Allows the Spring AI client application to get temperature, description, feels like temperature and humidity of requested city.
 
 
-
-
-
-
-
 ## MCP Prompts
 
 The server exposes the following MCP prompt.

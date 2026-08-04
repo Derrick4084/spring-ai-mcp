@@ -4,9 +4,8 @@ package rag.mcp.mcp_server.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,11 +15,10 @@ import java.math.BigDecimal;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-@Table(name = "product", schema = "product")
-public class Product implements Serializable {
+@Table(name = "product_category", schema = "product")
+public class Category implements Serializable {
 
     @Id
-    @Column(name = "ID", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,11 +27,7 @@ public class Product implements Serializable {
 
     private String description;
 
-    private double availableQuantity;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    private List<Product> products;
 
-    private BigDecimal price;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 }

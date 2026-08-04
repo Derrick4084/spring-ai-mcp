@@ -1,14 +1,14 @@
 package rag.mcp.mcp_server.components;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 import rag.mcp.mcp_server.entities.Product;
 import rag.mcp.mcp_server.repositories.ProductRepository;
 
 import java.math.BigDecimal;
 
-@Component
+//@Component
 public class ProductAppRunner implements ApplicationRunner {
 
     private final ProductRepository productRepository;
@@ -18,7 +18,7 @@ public class ProductAppRunner implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(@NonNull ApplicationArguments args) throws Exception {
 
         Product product1 = Product.builder()
                 .name("Mechanical Keyboard 1")
