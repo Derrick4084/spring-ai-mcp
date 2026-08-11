@@ -4,9 +4,7 @@ import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import rag.mcp.mcp_server.tools.DateTimeTool;
-import rag.mcp.mcp_server.tools.ProductTool;
-import rag.mcp.mcp_server.tools.WeatherTool;
+import rag.mcp.mcp_server.tools.*;
 
 @Configuration
 public class ToolsConfig {
@@ -25,6 +23,19 @@ public class ToolsConfig {
     @Bean
     public ToolCallbackProvider weatherTools(WeatherTool weatherTool){
         return MethodToolCallbackProvider.builder().toolObjects(weatherTool).build();
+
+    }
+
+
+    @Bean
+    public ToolCallbackProvider customerTools(CustomerTool customerTool){
+        return MethodToolCallbackProvider.builder().toolObjects(customerTool).build();
+
+    }
+
+    @Bean
+    public ToolCallbackProvider orderTools(OrderTool orderTool){
+        return MethodToolCallbackProvider.builder().toolObjects(orderTool).build();
 
     }
 

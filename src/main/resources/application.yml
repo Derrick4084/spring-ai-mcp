@@ -3,7 +3,7 @@ server:
 
 weather:
   open-weather:
-    api-key: "OpenWeather api key"
+    api-key: "Open Weather Api"
 
 spring:
   application:
@@ -11,18 +11,6 @@ spring:
 
   profiles:
     active: remote
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ecomm
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-    database: postgresql
-    show-sql: true
 
   ai:
     mcp:

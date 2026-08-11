@@ -1,82 +1,43 @@
 package rag.mcp.mcp_server.tools;
 
 
-import org.jspecify.annotations.NonNull;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
-import rag.mcp.mcp_server.entities.Product;
-import rag.mcp.mcp_server.services.ProductService;
-
-import java.math.BigDecimal;
+import rag.mcp.mcp_server.clients.ProductApiClient;
+import rag.mcp.mcp_server.records.ProductResponse;
 
 @Component
 public class ProductTool {
 
-    private final ProductService productService;
 
-    public ProductTool(ProductService productService) {
-        this.productService = productService;
+    private final ProductApiClient productApiClient;
+
+    public ProductTool(ProductApiClient productApiClient) {
+        this.productApiClient = productApiClient;
     }
 
-    public record ProductRequestById(
-            Long productId
-    ) {}
-
-    public record ProductRequestByName(
-            String name
-    ) {}
-
-    public record ProductResponse(
-            Long id,
-            String name,
-            String description,
-            Double qty,
-            BigDecimal price,
-            String categoryName
-    ) {}
 
     @Tool(
             name = "getProductById",
-            description = "Retrieves a product by its numeric ID"
+            description = """
+        Retrieves a product by its numeric ID.
+        The productId parameter MUST be a JSON integer, not a string.
+        Example:
+        {"productId":18}
+        """
     )
-    public ProductResponse getProductById(
-            @NonNull ProductRequestById productId) {
-
-        return productService
-                .getProductById(productId.productId())
-                .map(product -> new ProductResponse(
-                        product.getId(),
-                        product.getName(),
-                        product.getDescription(),
-                        product.getAvailableQuantity(),
-                        product.getPrice(),
-                        product.getCategory().getName()
-                ))
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Product not found: " +
-                                        productId.productId()
-                        )
-                );
+    public ProductResponse getProductById(@ToolParam(description = "Product id") Long productId) {
+        return productApiClient.getById(productId);
     }
+
 
     @Tool(
             name = "getProductByName",
             description = "Retrieves a product by its exact name"
     )
-    public ProductResponse getProductByName(
-            @NonNull ProductRequestByName name) {
+    public ProductResponse getProductByName(@ToolParam(description = "Product name") String name) {
+        return productApiClient.getByName(name);
 
-        Product product = productService
-                .getProductByName(name.name());
-
-        return new ProductResponse(
-                product.getId(),
-                product.getName(),
-                product.getDescription(),
-                product.getAvailableQuantity(),
-                product.getPrice(),
-                product.getCategory().getName()
-        );
     }
 }
