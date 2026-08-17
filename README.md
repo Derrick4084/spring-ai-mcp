@@ -33,6 +33,7 @@ The server provides tools for:
 * **Product Inventory** — Checks inventory through the EcommModulith API.
 * **Customer Information** — Retrieves customer information through the EcommModulith API.
 * **Order Status** — Checks order status through the EcommModulith API.
+* **Shopping Cart** — Checks customer shopping cart through the EcommModulith API.
 * **Weather** — Retrieves weather information for a location.
 * **Date/Time** — Retrieves the current date and time.
 * **RAG** — Retrieves relevant information from documents stored in Qdrant.
@@ -72,3 +73,5 @@ The same approach can be extended to expose almost any application capability as
 * Qdrant
 * Docker
 * Maven
+* Redis
+* Zipkin

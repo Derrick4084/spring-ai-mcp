@@ -26,7 +26,7 @@ public class CustomerApiClient {
 
         String token = tokenGenerator.generate(
                 "agent@example.com",
-                "abc123",
+                "abc12345",
                 UserType.USER
         );
 
@@ -40,7 +40,7 @@ public class CustomerApiClient {
     public CustomerResponse getCustomerById(Long id) {
         String token = tokenGenerator.generate(
                 "agent@example.com",
-                "abc123",
+                "abc12345",
                 UserType.USER
         );
 

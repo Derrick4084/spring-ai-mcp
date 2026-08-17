@@ -7,7 +7,6 @@ public record CustomerResponse(
         String firstName,
         String lastName,
         String email,
-        String password,
         List<CustomerResponseAddress> addresses
 ) {
 }

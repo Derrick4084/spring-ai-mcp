@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import rag.mcp.mcp_server.components.TokenGenerator;
 import rag.mcp.mcp_server.enums.UserType;
+import rag.mcp.mcp_server.records.CartItem;
+import rag.mcp.mcp_server.records.CartResponse;
+import rag.mcp.mcp_server.records.CartToolResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,25 +20,6 @@ public class ShoppingCartApiClient {
     private final RestClient restClient;
     private final TokenGenerator tokenGenerator;
 
-    public record CartRequest(
-            String email
-    ) {
-    }
-
-    public record CartResponse(
-            String customerEmail,
-            BigDecimal totalAmount,
-            List<CartItem> items
-    ){}
-
-    public record CartItem(
-            String name,
-            Double quantity,
-            BigDecimal total
-    ) {
-    }
-
-
 
     public ShoppingCartApiClient(RestClient.Builder restClient, TokenGenerator tokenGenerator) {
         this.restClient = restClient.baseUrl("http://localhost:8079").build();
@@ -43,18 +27,33 @@ public class ShoppingCartApiClient {
     }
 
 
-    public CartResponse getCartByEmail(String email) {
+    public CartToolResponse getCartByEmail(String email) {
 
         String token = tokenGenerator.generate(
                 "agent@example.com",
-                "abc123",
+                "abc12345",
                 UserType.USER
         );
 
-        return restClient.get().uri("/cart/{email}", email)
+
+        CartResponse response = restClient.get().uri("/cart/{email}", email)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .retrieve()
                 .body(CartResponse.class);
+
+        if (response == null) {
+            throw new RuntimeException("No cart found");
+        }
+
+
+        return new CartToolResponse(
+                response.customerEmail(),
+                response.totalAmount(),
+                response.items().size(),
+                response.items().stream().mapToDouble(CartItem::quantity).sum(),
+                response.items()
+
+        );
 
     }
 }

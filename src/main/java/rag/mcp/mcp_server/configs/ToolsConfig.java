@@ -39,4 +39,10 @@ public class ToolsConfig {
 
     }
 
+    @Bean
+    public ToolCallbackProvider cartTools(ShoppingCartTool cartTool){
+        return MethodToolCallbackProvider.builder().toolObjects(cartTool).build();
+
+    }
+
 }
