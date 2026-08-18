@@ -1,0 +1,23 @@
+spring:
+
+  ai:
+    vectorstore:
+      qdrant:
+        initialize-schema: true
+        host: ${MODEL_IP}
+        port: 6334
+        collection-name: docs_ollama
+  config:
+    import:
+      - aws-secretsmanager:${WEATHER_API_KEY}
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      zipkin:
+        endpoint: http://${ZIPKIN_IP}:9411/api/v2/spans
+
+weather:
+  open-weather:
+    api-key: "Open Weather Api"

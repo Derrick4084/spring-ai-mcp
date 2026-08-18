@@ -1,4 +1,4 @@
-FROM maven:3.9.11-eclipse-temurin-21 AS build
+FROM maven:3.9.11-eclipse-temurin-25 AS build
 
 WORKDIR /build
 COPY pom.xml .
@@ -7,7 +7,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime
-FROM amazoncorretto:21-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 # Install curl and CA certs
 RUN apk --no-cache add curl wget netcat-openbsd ca-certificates
