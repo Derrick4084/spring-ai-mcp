@@ -1,13 +1,14 @@
 server:
   port: 8075
 
+
 weather:
   open-weather:
     api-key: "Open Weather Api"
 
 spring:
   application:
-    name: streamable-mcp-server
+    name: mcp-server
 
   profiles:
     active: remote

@@ -4,20 +4,20 @@ spring:
     vectorstore:
       qdrant:
         initialize-schema: true
-        host: ${MODEL_IP}
-        port: 6334
+        host: ${QDRANT_HOST}
+        port: ${QDRANT_PORT}
         collection-name: docs_ollama
   config:
     import:
-      - aws-secretsmanager:${WEATHER_API_KEY}
+      - aws-secretsmanager:${WEATHER_API_SECRET_NAME}?prefix=weather.
 management:
   tracing:
     sampling:
       probability: 1.0
     export:
       zipkin:
-        endpoint: http://${ZIPKIN_IP}:9411/api/v2/spans
+        endpoint: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/api/v2/spans
 
 weather:
   open-weather:
-    api-key: "Open Weather Api"
+    api-key: ${weather.apikey}

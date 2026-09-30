@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "weather.open-weather.api-key",
+      "type": "java.lang.String",
+      "description": "OpenWeather API key."
+    }
+  ]
+}

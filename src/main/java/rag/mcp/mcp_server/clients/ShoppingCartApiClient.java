@@ -21,8 +21,8 @@ public class ShoppingCartApiClient {
     private final TokenGenerator tokenGenerator;
 
 
-    public ShoppingCartApiClient(RestClient.Builder restClient, TokenGenerator tokenGenerator) {
-        this.restClient = restClient.baseUrl("http://localhost:8079").build();
+    public ShoppingCartApiClient(RestClient restClient, TokenGenerator tokenGenerator) {
+        this.restClient = restClient;
         this.tokenGenerator = tokenGenerator;
     }
 

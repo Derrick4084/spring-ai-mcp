@@ -16,8 +16,8 @@ public class CustomerApiClient {
     private final TokenGenerator tokenGenerator;
 
 
-    public CustomerApiClient(RestClient.Builder restClient, TokenGenerator tokenGenerator) {
-        this.restClient = restClient.baseUrl("http://localhost:8079").build();
+    public CustomerApiClient(RestClient restClient, TokenGenerator tokenGenerator) {
+        this.restClient = restClient;
         this.tokenGenerator = tokenGenerator;
     }
 

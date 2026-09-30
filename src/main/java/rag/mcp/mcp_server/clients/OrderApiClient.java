@@ -15,8 +15,8 @@ public class OrderApiClient {
     private final TokenGenerator tokenGenerator;
 
 
-    public OrderApiClient(RestClient.Builder restClient, TokenGenerator tokenGenerator) {
-        this.restClient = restClient.baseUrl("http://localhost:8079").build();
+    public OrderApiClient(RestClient restClient, TokenGenerator tokenGenerator) {
+        this.restClient = restClient;
         this.tokenGenerator = tokenGenerator;
     }
 
